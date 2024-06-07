@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/et_category_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Category Name" />
+
+    <EditText
+        android:id="@+id/et_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Icon"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/et_budget_limit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Budget Limit" />
+
+    <EditText
+        android:id="@+id/et_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Date" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save" />
+
+</LinearLayout>

@@ -149,5 +149,23 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.delete(TABLE_CATEGORIES, "$KEY_ID = ?", arrayOf(id.toString()))
         db.close()
     }
+    fun checkBudgetExceeded(categoryId: Int, newExpense: Float): Boolean {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT SUM(amount) FROM $TABLE_TRANSACTIONS WHERE $KEY_CATEGORY_ID = ? AND $KEY_TYPE = 'expense'", arrayOf(categoryId.toString()))
+        var totalExpense = 0.0f
+        if (cursor.moveToFirst()) {
+            totalExpense = cursor.getFloat(0)
+        }
+        cursor.close()
+
+        val categoryCursor = db.rawQuery("SELECT $KEY_BUDGET_LIMIT FROM $TABLE_CATEGORIES WHERE $KEY_ID = ?", arrayOf(categoryId.toString()))
+        var budgetLimit = 0.0f
+        if (categoryCursor.moveToFirst()) {
+            budgetLimit = categoryCursor.getFloat(0)
+        }
+        categoryCursor.close()
+
+        return (totalExpense + newExpense) > budgetLimit
+    }
 
 }

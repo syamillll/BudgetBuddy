@@ -3,6 +3,7 @@ package com.example.budgetbuddy
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class AddTransactionActivity : AppCompatActivity() {
@@ -36,5 +37,25 @@ class AddTransactionActivity : AppCompatActivity() {
             databaseHelper.addTransaction(transaction)
             finish()
         }
+        btnSave.setOnClickListener {
+            val transaction = Transaction(
+                id = 0,
+                categoryId = etCategoryId.text.toString().toInt(),
+                amount = etAmount.text.toString().toFloat(),
+                date = etDate.text.toString(),
+                paymentMethod = etPaymentMethod.text.toString(),
+                description = etDescription.text.toString(),
+                type = etType.text.toString()
+            )
+
+            if (transaction.type == "expense" && databaseHelper.checkBudgetExceeded(transaction.categoryId, transaction.amount)) {
+                // Show warning to the user
+                Toast.makeText(this, "Budget exceeded for this category!", Toast.LENGTH_LONG).show()
+            } else {
+                databaseHelper.addTransaction(transaction)
+                finish()
+            }
+        }
+
     }
 }
