@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_records"
+        android:icon="@drawable/ic_records"
+        android:title="Records" />
+    <item
+        android:id="@+id/navigation_analysis"
+        android:icon="@drawable/ic_analysis"
+        android:title="Analysis" />
+    <item
+        android:id="@+id/navigation_budgets"
+        android:icon="@drawable/ic_budgets"
+        android:title="Budgets" />
+    <item
+        android:id="@+id/navigation_accounts"
+        android:icon="@drawable/ic_accounts"
+        android:title="Accounts" />
+    <item
+        android:id="@+id/navigation_categories"
+        android:icon="@drawable/ic_categories"
+        android:title="Categories" />
+</menu>
