@@ -24,7 +24,8 @@
         android:layout_margin="16dp"
         app:srcCompat="@drawable/ic_add"
         android:contentDescription="@string/add"
-        app:backgroundTint="@color/colorPrimary" />
+        app:backgroundTint="@color/colorPrimary"
+        app:tint="@android:color/white"/>
 
 </FrameLayout>
 

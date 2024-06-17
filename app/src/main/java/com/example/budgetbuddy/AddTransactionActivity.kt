@@ -1,6 +1,8 @@
 package com.example.budgetbuddy
 
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -23,20 +25,15 @@ class AddTransactionActivity : AppCompatActivity() {
         val etCategoryId: EditText = findViewById(R.id.et_category_id)
         val etType: EditText = findViewById(R.id.et_type)
         val btnSave: Button = findViewById(R.id.btn_save)
+        val btnCancel: Button = findViewById(R.id.btn_cancel)
 
-        btnSave.setOnClickListener {
-            val transaction = Transaction(
-                id = 0,
-                categoryId = etCategoryId.text.toString().toInt(),
-                amount = etAmount.text.toString().toFloat(),
-                date = etDate.text.toString(),
-                paymentMethod = etPaymentMethod.text.toString(),
-                description = etDescription.text.toString(),
-                type = etType.text.toString()
-            )
-            databaseHelper.addTransaction(transaction)
-            finish()
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window = this.window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = this.resources.getColor(R.color.white)
         }
+
         btnSave.setOnClickListener {
             val transaction = Transaction(
                 id = 0,
@@ -57,5 +54,9 @@ class AddTransactionActivity : AppCompatActivity() {
             }
         }
 
+        btnCancel.setOnClickListener {
+            // Finish the activity and return to the previous screen
+            finish()
+        }
     }
 }

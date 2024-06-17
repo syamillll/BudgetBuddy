@@ -1,11 +1,28 @@
 package com.example.budgetbuddy
 
+import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.content.ContentValues
-import android.database.Cursor
 
+data class Category(
+    val id: Int,
+    val name: String,
+    val icon: String,
+    val budgetLimit: Float,
+    val date: String
+)
+
+data class Transaction(
+    val id: Int,
+    val categoryId: Int,
+    val amount: Float,
+    val date: String,
+    val paymentMethod: String,
+    val description: String,
+    val type: String
+)
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -49,6 +66,20 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         db.execSQL(CREATE_CATEGORIES_TABLE)
         db.execSQL(CREATE_TRANSACTIONS_TABLE)
+
+        // Insert default categories
+        insertDefaultCategory(db, "Home", "ic_home", 1000.0, "2024-01-01")
+        insertDefaultCategory(db, "Car", "ic_car", 1000.0, "2024-01-01")
+    }
+
+    private fun insertDefaultCategory(db: SQLiteDatabase, name: String, icon: String, budgetLimit: Double, date: String) {
+        val values = ContentValues().apply {
+            put(KEY_NAME, name)
+            put(KEY_ICON, icon)
+            put(KEY_BUDGET_LIMIT, budgetLimit)
+            put(KEY_DATE, date)
+        }
+        db.insert(TABLE_CATEGORIES, null, values)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -131,7 +162,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return transactionList
     }
 
-    // Update category (if needed)
+    // Update category
     fun updateCategory(category: Category): Int {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -143,15 +174,17 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return db.update(TABLE_CATEGORIES, values, "$KEY_ID = ?", arrayOf(category.id.toString()))
     }
 
-    // Delete category (if needed)
+    // Delete category
     fun deleteCategory(id: Int) {
         val db = this.writableDatabase
         db.delete(TABLE_CATEGORIES, "$KEY_ID = ?", arrayOf(id.toString()))
         db.close()
     }
+
+    // Check if budget exceeded
     fun checkBudgetExceeded(categoryId: Int, newExpense: Float): Boolean {
         val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT SUM(amount) FROM $TABLE_TRANSACTIONS WHERE $KEY_CATEGORY_ID = ? AND $KEY_TYPE = 'expense'", arrayOf(categoryId.toString()))
+        val cursor = db.rawQuery("SELECT SUM($KEY_AMOUNT) FROM $TABLE_TRANSACTIONS WHERE $KEY_CATEGORY_ID = ? AND $KEY_TYPE = 'expense'", arrayOf(categoryId.toString()))
         var totalExpense = 0.0f
         if (cursor.moveToFirst()) {
             totalExpense = cursor.getFloat(0)
@@ -167,5 +200,4 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
         return (totalExpense + newExpense) > budgetLimit
     }
-
 }

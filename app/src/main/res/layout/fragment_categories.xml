@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- fragment_categories.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <Button
+    <!-- Title "Category" -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Categories"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Category List Container -->
+    <LinearLayout
+        android:id="@+id/categories_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingBottom="16dp">
+        <!-- Place your category list items here -->
+    </LinearLayout>
+
+    <!-- Add Category Button -->
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_add_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Category" />
+        android:text="Add Category"
+        app:backgroundTint="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:layout_gravity="center_horizontal"/>
+
 </LinearLayout>

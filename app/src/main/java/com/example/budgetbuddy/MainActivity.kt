@@ -1,8 +1,10 @@
 package com.example.budgetbuddy
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -28,10 +30,17 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Initialize adapters
-        categoryAdapter = CategoryAdapter(databaseHelper.getAllCategories())
-        transactionAdapter = TransactionAdapter(databaseHelper.getAllTransactions())
+        //categoryAdapter = CategoryAdapter(databaseHelper.getAllCategories())
+        //transactionAdapter = TransactionAdapter(databaseHelper.getAllTransactions())
 
-        recyclerView.adapter = categoryAdapter // or transactionAdapter based on requirement
+        //recyclerView.adapter = categoryAdapter // or transactionAdapter based on requirement
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window = this.window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            window.statusBarColor = this.resources.getColor(R.color.white)
+        }
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             var selectedFragment: Fragment? = null
