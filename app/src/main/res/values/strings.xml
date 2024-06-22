@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">BudgetBuddy</string>
     <string name="add">Add</string>
+    <string name="icon">Icon</string>
     <string name="category_icon">Category Icon</string>
     <string name="account_icon">Account Icon</string>
     <string-array name="type_array">
