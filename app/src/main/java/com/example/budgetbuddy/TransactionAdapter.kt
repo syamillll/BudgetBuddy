@@ -1,11 +1,16 @@
 package com.example.budgetbuddy
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -14,6 +19,7 @@ data class TransactionDisplay(
     val categoryName: String,
     val accountName: String,
     val accountIcon: String,
+    val type: String,
     val amount: Float
 )
 
@@ -55,7 +61,17 @@ class TransactionAdapter(
             }
             categoryName.text = transaction.categoryName
             accountName.text = transaction.accountName
-            transactionAmount.text = transaction.amount.toString()
+
+            // Set text color and prefix based on transaction type
+            if (transaction.type.equals("Income", ignoreCase = true)) {
+                val amountWithSymbol = "+ RM${transaction.amount.toString()}"
+                transactionAmount.text = amountWithSymbol
+                transactionAmount.setTextColor(ContextCompat.getColor(context, R.color.emerald)) // Assuming you have defined a green color resource
+            } else {
+                val amountWithSymbol = "- RM${transaction.amount.toString()}"
+                transactionAmount.text = amountWithSymbol
+                transactionAmount.setTextColor(ContextCompat.getColor(context, R.color.light_red)) // Assuming you have defined a red color resource
+            }
         }
     }
 
@@ -70,8 +86,15 @@ class TransactionAdapter(
 
     override fun getItemCount() = transactions.size
 
+    @SuppressLint("SetTextI18n")
     private fun showTransactionDetails(context: Context, transaction: Transaction) {
-        val details = """
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.transaction_details_modal, null)
+        val dialogBuilder = MaterialAlertDialogBuilder(context).setView(dialogView)
+        val alertDialog = dialogBuilder.create()
+        alertDialog.show()
+
+        val transactionDetailsTextView: TextView = dialogView.findViewById(R.id.transaction_details)
+        transactionDetailsTextView.text = """
             ID: ${transaction.id}
             Category ID: ${transaction.categoryId}
             Amount: ${transaction.amount}
@@ -81,10 +104,30 @@ class TransactionAdapter(
             Type: ${transaction.type}
         """.trimIndent()
 
-        MaterialAlertDialogBuilder(context)
-            .setTitle("Transaction Details")
-            .setMessage(details)
-            .setPositiveButton("OK", null)
-            .show()
+        val btnClose: ImageButton = dialogView.findViewById(R.id.btn_close)
+        val btnEdit: ImageButton = dialogView.findViewById(R.id.btn_edit)
+        val btnDelete: ImageButton = dialogView.findViewById(R.id.btn_delete)
+
+        btnClose.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        btnEdit.setOnClickListener {
+            val intent = Intent(context, EditTransactionActivity::class.java)
+            intent.putExtra("transaction_id", transaction.id)
+            context.startActivity(intent)
+            alertDialog.dismiss()
+        }
+
+        btnDelete.setOnClickListener {
+            deleteTransaction(context, transaction)
+            alertDialog.dismiss()
+        }
+    }
+
+    private fun deleteTransaction(context: Context, transaction: Transaction) {
+        val databaseHelper = DatabaseHelper(context)
+        databaseHelper.deleteTransaction(transaction.id)
+        (context as? MainActivity)?.loadTransactions() // Refresh the list after deletion
     }
 }

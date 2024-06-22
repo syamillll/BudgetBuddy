@@ -183,7 +183,29 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return transactionList
     }
 
-        //Get all account
+    // Delete transaction
+    fun deleteTransaction(id: Int) {
+        val db = this.writableDatabase
+        db.delete(TABLE_TRANSACTIONS, "$KEY_ID = ?", arrayOf(id.toString()))
+        db.close()
+    }
+
+    // Update transaction
+    fun updateTransaction(transaction: Transaction): Int {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(KEY_CATEGORY_ID, transaction.categoryId)
+            put(KEY_AMOUNT, transaction.amount)
+            put(KEY_DATE, transaction.date)
+            put(KEY_PAYMENT_METHOD, transaction.paymentMethod)
+            put(KEY_DESCRIPTION, transaction.description)
+            put(KEY_TYPE, transaction.type)
+        }
+        return db.update(TABLE_TRANSACTIONS, values, "$KEY_ID = ?", arrayOf(transaction.id.toString()))
+    }
+
+
+    // Get all account
     fun getAllAccounts(): List<Account> {
         val accountList = mutableListOf<Account>()
         val selectQuery = "SELECT * FROM $TABLE_ACCOUNTS"

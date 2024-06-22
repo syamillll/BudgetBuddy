@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".AddCategoryActivity" />
         <activity android:name=".AddTransactionActivity" />
+        <activity android:name=".EditTransactionActivity" />
     </application>
 
 </manifest>

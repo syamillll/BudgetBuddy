@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,12 +28,6 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Initialize adapters
-        //categoryAdapter = CategoryAdapter(databaseHelper.getAllCategories())
-        //transactionAdapter = TransactionAdapter(databaseHelper.getAllTransactions())
-
-        //recyclerView.adapter = categoryAdapter // or transactionAdapter based on requirement
-
         if (Build.VERSION.SDK_INT >= 21) {
             val window = this.window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -54,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
             if (selectedFragment != null) {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment).commit()
-                Log.d("MainActivity", "Selected fragment: ${selectedFragment.javaClass.simpleName}") // Add this line
+                Log.d("MainActivity", "Selected fragment: ${selectedFragment.javaClass.simpleName}")
             }
             true
         }
@@ -62,5 +55,9 @@ class MainActivity : AppCompatActivity() {
         // Set default selection
         bottomNavigationView.selectedItemId = R.id.navigation_records
     }
-}
 
+    fun loadTransactions() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? RecordsFragment
+        fragment?.loadTransactions()
+    }
+}

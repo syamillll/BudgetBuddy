@@ -1,4 +1,3 @@
-// RecordsFragment.kt
 package com.example.budgetbuddy
 
 import android.content.Intent
@@ -43,7 +42,8 @@ class RecordsFragment : Fragment() {
         return view
     }
 
-    private fun loadTransactions() {
+    // Get transactions
+    fun loadTransactions() {
         val transactions = db.getAllTransactions()
         val accounts = db.getAllAccounts()
         val categories = db.getAllCategories()
@@ -57,6 +57,7 @@ class RecordsFragment : Fragment() {
                 categoryName = category?.name ?: "Unknown",
                 accountName = account?.name ?: "Unknown",
                 accountIcon = account?.icon ?: "ic_no_image",
+                type = transaction.type,
                 amount = transaction.amount
             )
         }
@@ -65,6 +66,7 @@ class RecordsFragment : Fragment() {
         recyclerView.adapter = adapter
     }
 
+    // Reload transactions on page refresh
     override fun onResume() {
         super.onResume()
         loadTransactions()
