@@ -25,6 +25,7 @@ class TransactionAdapter(
     inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val categoryIcon: ImageView = itemView.findViewById(R.id.categoryIcon)
         private val categoryName: TextView = itemView.findViewById(R.id.categoryName)
+        private val accountIcon: ImageView = itemView.findViewById(R.id.accountIcon)
         private val accountName: TextView = itemView.findViewById(R.id.accountName)
         private val transactionAmount: TextView = itemView.findViewById(R.id.transactionAmount)
 
@@ -45,6 +46,12 @@ class TransactionAdapter(
                 categoryIcon.setImageResource(categoryIconResId)
             } else {
                 categoryIcon.setImageResource(R.drawable.ic_no_image) // Default icon if not found
+            }
+            val accountIconResId = context.resources.getIdentifier(transaction.accountIcon, "drawable", context.packageName)
+            if (accountIconResId != 0) {
+                accountIcon.setImageResource(accountIconResId)
+            } else {
+                accountIcon.setImageResource(R.drawable.ic_no_image) // Default account icon
             }
             categoryName.text = transaction.categoryName
             accountName.text = transaction.accountName

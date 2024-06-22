@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- fragment_categories.xml -->
+<!-- fragment_records.xml -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +12,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Other views in your LinearLayout -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewTransactions"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="16dp"
+            tools:listitem="@layout/item_transaction" />
 
     </LinearLayout>
 
@@ -26,8 +32,4 @@
         android:contentDescription="@string/add"
         app:backgroundTint="@color/colorPrimary"
         app:tint="@android:color/white"/>
-
 </FrameLayout>
-
-
-
