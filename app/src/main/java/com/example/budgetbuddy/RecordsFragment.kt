@@ -53,16 +53,19 @@ class RecordsFragment : Fragment() {
             val account = accounts.firstOrNull { it.name == transaction.paymentMethod }
 
             TransactionDisplay(
+                id = transaction.id,
+                type = transaction.type,
+                amount = transaction.amount,
                 categoryIcon = category?.icon ?: "ic_no_image",
                 categoryName = category?.name ?: "Unknown",
-                accountName = account?.name ?: "Unknown",
                 accountIcon = account?.icon ?: "ic_no_image",
-                type = transaction.type,
-                amount = transaction.amount
+                accountName = account?.name ?: "Unknown",
+                description = transaction.description,
+                date = transaction.date,
             )
         }
 
-        adapter = TransactionAdapter(transactionDisplays, transactions)
+        adapter = TransactionAdapter(transactionDisplays)
         recyclerView.adapter = adapter
     }
 
