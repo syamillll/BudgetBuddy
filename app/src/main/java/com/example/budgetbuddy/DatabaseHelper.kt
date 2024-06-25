@@ -76,14 +76,19 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.execSQL(CREATE_ACCOUNTS_TABLE)
         db.execSQL(CREATE_TRANSACTIONS_TABLE)
 
-        // Insert default categories and accounts
-        insertDefaultCategory(db, "Home", "ic_home", 1000.0, "2024-01-01")
-        insertDefaultCategory(db, "Car", "ic_car", 1000.0, "2024-01-01")
+        insertDefaultCategory(db, "Home", "ic_home", 1000.0f, "2024-01-01")
+        insertDefaultCategory(db, "Car", "ic_car", 1000.0f, "2024-01-01")
         insertDefaultAccount(db, "Cash", "ic_cash", 500.0)
         insertDefaultAccount(db, "Card", "ic_card", 700.0)
     }
 
-    private fun insertDefaultCategory(db: SQLiteDatabase, name: String, icon: String, budgetLimit: Double, date: String) {
+    private fun insertDefaultCategory(
+        db: SQLiteDatabase,
+        name: String,
+        icon: String,
+        budgetLimit: Float,
+        date: String
+    ) {
         val values = ContentValues().apply {
             put(KEY_NAME, name)
             put(KEY_ICON, icon)
@@ -93,7 +98,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.insert(TABLE_CATEGORIES, null, values)
     }
 
-    private fun insertDefaultAccount(db: SQLiteDatabase, name: String, icon: String, balance: Double) {
+    private fun insertDefaultAccount(
+        db: SQLiteDatabase,
+        name: String,
+        icon: String,
+        balance: Double
+    ) {
         val values = ContentValues().apply {
             put(KEY_NAME, name)
             put(KEY_ICON, icon)
@@ -109,7 +119,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         onCreate(db)
     }
 
-    // Add category
     fun addCategory(category: Category): Long {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -144,7 +153,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return categoryList
     }
 
-    // Add transaction
+    // Update category
+// Add transaction
     fun addTransaction(transaction: Transaction): Long {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -201,11 +211,15 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             put(KEY_DESCRIPTION, transaction.description)
             put(KEY_TYPE, transaction.type)
         }
-        return db.update(TABLE_TRANSACTIONS, values, "$KEY_ID = ?", arrayOf(transaction.id.toString()))
+        return db.update(
+            TABLE_TRANSACTIONS,
+            values,
+            "$KEY_ID = ?",
+            arrayOf(transaction.id.toString())
+        )
     }
 
-
-    // Get all account
+    // Get all accounts
     fun getAllAccounts(): List<Account> {
         val accountList = mutableListOf<Account>()
         val selectQuery = "SELECT * FROM $TABLE_ACCOUNTS"
@@ -226,7 +240,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         cursor.close()
         return accountList
     }
-
 
     // Update category
     fun updateCategory(category: Category): Int {
@@ -250,14 +263,20 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     // Check if budget exceeded
     fun checkBudgetExceeded(categoryId: Int, newExpense: Float): Boolean {
         val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT SUM($KEY_AMOUNT) FROM $TABLE_TRANSACTIONS WHERE $KEY_CATEGORY_ID = ? AND $KEY_TYPE = 'expense'", arrayOf(categoryId.toString()))
+        val cursor = db.rawQuery(
+            "SELECT SUM($KEY_AMOUNT) FROM $TABLE_TRANSACTIONS WHERE $KEY_CATEGORY_ID = ? AND $KEY_TYPE = 'expense'",
+            arrayOf(categoryId.toString())
+        )
         var totalExpense = 0.0f
         if (cursor.moveToFirst()) {
             totalExpense = cursor.getFloat(0)
         }
         cursor.close()
 
-        val categoryCursor = db.rawQuery("SELECT $KEY_BUDGET_LIMIT FROM $TABLE_CATEGORIES WHERE $KEY_ID = ?", arrayOf(categoryId.toString()))
+        val categoryCursor = db.rawQuery(
+            "SELECT $KEY_BUDGET_LIMIT FROM $TABLE_CATEGORIES WHERE $KEY_ID = ?",
+            arrayOf(categoryId.toString())
+        )
         var budgetLimit = 0.0f
         if (categoryCursor.moveToFirst()) {
             budgetLimit = categoryCursor.getFloat(0)
@@ -265,5 +284,15 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         categoryCursor.close()
 
         return (totalExpense + newExpense) > budgetLimit
+    }
+
+    // Set budget limit for a category
+    fun setBudgetLimit(categoryId: Int, budgetLimit: Float, date: String): Int {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(KEY_BUDGET_LIMIT, budgetLimit)
+            put(KEY_DATE, date)
+        }
+        return db.update(TABLE_CATEGORIES, values, "$KEY_ID = ?", arrayOf(categoryId.toString()))
     }
 }

@@ -15,4 +15,25 @@
     <color name="green">#008000</color>
     <color name="light_red">#FF6961</color>
     <!-- Emerald color -->
+
+    <color name="dialog_background">#FFFFFF</color>
+    <color name="text_color">#000000</color>
+    <color name="input_background">#EEEEEE</color>
+    <color name="button_text">#FFFFFF</color>
+    <color name="button_background">#FF9800</color>
+    <color name="background_color">#F5F5F5</color>
+    <color name="recycler_background">#FFFFFF</color>
+    <color name="item_background">#FFFFFF</color>
+    <color name="box_stroke">#FF9800</color>
+    <color name="hint_color">#757575</color>
+
+    <color name="primary_color">#6200EA</color>
+    <color name="primary_dark_color">#3700B3</color>
+    <color name="secondary_color">#03DAC6</color>
+    <color name="light_gray">#F0F0F0</color>
+    <color name="dark_gray">#A0A0A0</color>
+
+    <color name="button_color">#FF5722</color>
+
+
 </resources>

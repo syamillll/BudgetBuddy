@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/item_background">
 
     <ImageView
         android:id="@+id/category_icon"
@@ -21,6 +22,4 @@
         android:textSize="16sp"
         android:gravity="center"
         android:textStyle="bold"/>
-
-
 </LinearLayout>
