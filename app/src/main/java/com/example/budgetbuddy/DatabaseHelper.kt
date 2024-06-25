@@ -355,4 +355,30 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return category
     }
 
+    fun getTransactionsByType(type: String): List<Transaction> {
+        val transactions = mutableListOf<Transaction>()
+        val db = this.readableDatabase
+        val cursor: Cursor
+
+        cursor = db.rawQuery("SELECT * FROM $TABLE_TRANSACTIONS WHERE $KEY_TYPE = ?", arrayOf(type))
+
+        if (cursor.moveToFirst()) {
+            do {
+                val transaction = Transaction(
+                    cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(KEY_CATEGORY_ID)),
+                    cursor.getFloat(cursor.getColumnIndexOrThrow(KEY_AMOUNT)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_PAYMENT_METHOD)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESCRIPTION)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_TYPE))
+                )
+                transactions.add(transaction)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return transactions
+    }
+
+
 }
