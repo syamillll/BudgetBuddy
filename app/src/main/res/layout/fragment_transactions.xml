@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- fragment_records.xml -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,6 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:scaleX="2"
+            android:textAlignment="center"
+            android:visibility="visible"
+            app:srcCompat="@drawable/banner1" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewTransactions"
@@ -28,8 +36,22 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        app:srcCompat="@drawable/ic_add"
         android:contentDescription="@string/add"
-        app:backgroundTint="@color/colorPrimary"
-        app:tint="@android:color/white"/>
+        app:backgroundTint="@color/button_color"
+        app:srcCompat="@drawable/ic_add"
+        app:tint="@android:color/white" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@color/black"
+        android:textSize="48sp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="center"
+        android:text="Transactions"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:alpha="0.6"
+         />
 </FrameLayout>

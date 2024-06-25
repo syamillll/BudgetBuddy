@@ -14,12 +14,13 @@ class TransactionsFragment : Fragment() {
     private lateinit var db: DatabaseHelper
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TransactionAdapter
-
+    private lateinit var transactions: List<TransactionDisplay>
+    private lateinit var transactionDetails: List<Transaction>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_records, container, false)
+        val view = inflater.inflate(R.layout.fragment_transactions, container, false)
 
         // Initialize the database helper
         db = DatabaseHelper(requireContext())

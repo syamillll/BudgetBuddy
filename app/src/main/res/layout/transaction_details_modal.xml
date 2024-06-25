@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="16dp">
 
     <LinearLayout
         android:id="@+id/btn_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="start"
+        android:orientation="horizontal"
         android:padding="16dp">
 
         <!-- Close button -->
@@ -17,9 +18,10 @@
             android:id="@+id/btn_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_close"
+            android:background="@android:color/transparent"
             android:contentDescription="Close dialog"
-            android:background="@android:color/transparent" />
+            android:src="@drawable/ic_close"
+            android:tint="@color/white" />
 
         <!-- Spacer to push edit and delete buttons to the right -->
         <View
@@ -32,19 +34,21 @@
             android:id="@+id/btn_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
+            android:background="@android:color/transparent"
             android:contentDescription="Edit transaction"
-            android:background="@android:color/transparent" />
+            android:src="@drawable/ic_edit"
+            android:tint="@color/white" />
 
         <!-- Delete button -->
         <ImageButton
             android:id="@+id/btn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_delete"
-            android:contentDescription="Delete transaction"
             android:layout_marginStart="16dp"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent"
+            android:contentDescription="Delete transaction"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/background_color" />
 
     </LinearLayout>
 
@@ -63,12 +67,14 @@
             android:id="@+id/transaction_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/transaction_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -78,17 +84,18 @@
         android:id="@+id/transaction_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:gravity="center"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingBottom="8dp" />
+        android:paddingBottom="8dp"
+        android:textSize="16sp" />
 
     <!-- Category Icon and Name -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:gravity="start"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingBottom="8dp">
@@ -97,21 +104,21 @@
             android:id="@+id/category_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp" />
 
         <TextView
             android:id="@+id/category_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </LinearLayout>
 
     <!-- Account Icon and Name -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:gravity="start"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingBottom="8dp">
@@ -120,13 +127,13 @@
             android:id="@+id/account_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp" />
 
         <TextView
             android:id="@+id/account_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </LinearLayout>
 
     <!-- Description -->
@@ -134,9 +141,10 @@
         android:id="@+id/transaction_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:gravity="center"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingBottom="8dp" />
+        android:paddingBottom="16dp"
+        android:textSize="16sp" />
 
 </LinearLayout>

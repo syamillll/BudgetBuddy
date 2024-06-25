@@ -32,13 +32,13 @@ class MainActivity : AppCompatActivity() {
             val window = this.window
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.statusBarColor = this.resources.getColor(R.color.white)
+            window.statusBarColor = this.resources.getColor(R.color.button_color)
         }
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             var selectedFragment: Fragment? = null
             when (item.itemId) {
-                R.id.navigation_records -> selectedFragment = RecordsFragment()
+                R.id.navigation_records -> selectedFragment = TransactionsFragment()
                 R.id.navigation_analysis -> selectedFragment = AnalysisFragment()
                 R.id.navigation_budgets -> selectedFragment = BudgetsFragment()
                 R.id.navigation_accounts -> selectedFragment = AccountsFragment()
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadTransactions() {
-        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? RecordsFragment
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as? TransactionsFragment
         fragment?.loadTransactions()
     }
 }

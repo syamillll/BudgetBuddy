@@ -18,7 +18,7 @@ class EditTransactionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_transaction)
+        setContentView(R.layout.activity_add_transaction)
 
         databaseHelper = DatabaseHelper(this)
 

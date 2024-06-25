@@ -53,17 +53,9 @@ class EditCategoryActivity : AppCompatActivity() {
         btnSave.setOnClickListener {
             val newName = etCategoryName.text.toString()
             val newIcon = adapter.getItem(spinnerIcon.selectedItemPosition).name
-            val newBudgetLimit = etBudgetLimit.text.toString().toFloatOrNull() ?: 0.0f
+            val newBudgetLimit = etBudgetLimit.text.toString().toDoubleOrNull() ?: 0.0
             val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-
-            val updatedCategory = category.copy(
-                name = newName,
-                icon = newIcon,
-                budgetLimit = newBudgetLimit,
-                date = currentDate
-            )
-
-            val result = databaseHelper.updateCategory(updatedCategory)
+            val result = databaseHelper.editCategory(categoryId, newName, newIcon, newBudgetLimit, currentDate)
             if (result > 0) {
                 setResult(Activity.RESULT_OK)
                 finish() // Finish activity after update

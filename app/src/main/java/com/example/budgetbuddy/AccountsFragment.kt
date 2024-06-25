@@ -58,7 +58,7 @@ class AccountsFragment : Fragment() {
 
         accountsAdapter = AccountsAdapter(updatedAccounts) { account ->
             // Handle account click here
-            val fragment = TransactionsFragment().apply {
+            val fragment = AccountsTransactionsFragment().apply {
                 arguments = Bundle().apply {
                     putString("accountType", account.name)
                 }

@@ -270,6 +270,19 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return db.update(TABLE_CATEGORIES, values, "$KEY_ID = ?", arrayOf(category.id.toString()))
     }
 
+    fun editCategory(id: Int, newName: String, newIcon: String, newBudgetLimit: Double, newDate: String): Int {
+        val db = this.writableDatabase
+        val values = ContentValues().apply {
+            put(KEY_NAME, newName)
+            put(KEY_ICON, newIcon)
+            put(KEY_BUDGET_LIMIT, newBudgetLimit)
+            put(KEY_DATE, newDate)
+        }
+        Log.d("DatabaseHelper", "Updating category ID: $id with newName: $newName, newIcon: $newIcon, newBudgetLimit: $newBudgetLimit, newDate: $newDate")
+        return db.update(TABLE_CATEGORIES, values, "$KEY_ID = ?", arrayOf(id.toString()))
+    }
+
+
     // Delete category
     fun deleteCategory(id: Int) {
         val db = this.writableDatabase

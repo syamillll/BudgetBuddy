@@ -1,22 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- fragment_analysis.xml -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".AnalysisFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:scaleX="1.8"
+            android:src="@drawable/banner4" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="@color/black"
+            android:textSize="48sp"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="Analysis"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:alpha="0.6"/>
+    </FrameLayout>
 
     <Spinner
         android:id="@+id/spinner_transaction_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/border_outline"
+        android:popupBackground="@drawable/edit_text_background"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginEnd="16dp"
+        android:gravity="center" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pie_chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/spinner_transaction_type"
-        android:layout_marginTop="16dp"/>
-</RelativeLayout>
+        android:layout_marginTop="16dp" />
+</LinearLayout>

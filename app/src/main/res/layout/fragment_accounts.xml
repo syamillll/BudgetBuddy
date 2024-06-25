@@ -2,8 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:scaleX="1.8"
+            android:src="@drawable/banner5" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:alpha="0.6"
+            android:background="@color/black"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:text="Accounts"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="48sp" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,72 +40,72 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Overall"
-            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
             android:textSize="18sp"
-            android:textColor="@color/colorPrimary"/>
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_marginTop="8dp">
+            android:weightSum="2">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/expense_so_far"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="EXPENSE SO FAR"
-                    android:textSize="14sp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/expense_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="-RM0.00"
-                    android:textSize="16sp"
                     android:textColor="@color/colorRed"
-                    android:layout_marginTop="4dp"/>
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="8dp"/>
+                android:layout_margin="8dp"
+                android:background="@android:color/darker_gray" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/income_so_far"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="INCOME SO FAR"
-                    android:textSize="14sp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/income_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:text="RM0.00"
-                    android:textSize="16sp"
                     android:textColor="@color/colorGreen"
-                    android:layout_marginTop="4dp"/>
+                    android:textSize="16sp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -102,7 +126,8 @@
         android:id="@+id/recyclerViewAccounts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:layout_weight="1"
-        android:layout_marginTop="16dp"/>
+        android:padding="16dp" />
 
 </LinearLayout>
