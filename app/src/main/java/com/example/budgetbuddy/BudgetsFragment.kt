@@ -17,7 +17,7 @@ import java.util.*
 class BudgetsFragment : Fragment() {
 
     private lateinit var databaseHelper: DatabaseHelper
-    private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var setBudgetAdapter: SetBudgetAdapter
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
@@ -30,15 +30,16 @@ class BudgetsFragment : Fragment() {
         databaseHelper = DatabaseHelper(requireContext())
         val categories = databaseHelper.getAllCategories()
 
-        categoryAdapter = CategoryAdapter(categories) { category ->
+        setBudgetAdapter = SetBudgetAdapter(categories) { category ->
             showSetBudgetDialog(category)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = categoryAdapter
+        recyclerView.adapter = setBudgetAdapter
 
         return view
     }
+
 
     private fun showSetBudgetDialog(category: Category) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_set_budget, null)
@@ -89,21 +90,22 @@ class BudgetsFragment : Fragment() {
             .setTitle("Set Budget for ${category.name}")
             .setView(dialogView)
             .create()
-    
+
         setBudgetButton.setOnClickListener {
             val budget = budgetInput.text.toString().toFloatOrNull()
             val selectedMonth = months[monthInput.selectedItemPosition]
             val selectedYear = years[yearInput.selectedItemPosition]
-    
+
             if (budget != null && selectedMonth.isNotEmpty() && selectedYear.isNotEmpty()) {
-                val date = "$selectedYear-${selectedMonthIndex + 1}-01" // format date as YYYY-MM-DD
+                val date = "$selectedYear-${selectedMonthIndex + 1}-01"
                 databaseHelper.updateCategory(category.copy(budgetLimit = budget, date = date))
-                categoryAdapter.notifyDataSetChanged()
+                setBudgetAdapter.notifyDataSetChanged()  // Use setBudgetAdapter instead of categoryAdapter
                 alertDialog.dismiss()
             }
+
         }
-    
+
         alertDialog.show()
     }
-    
+
 }
