@@ -1,4 +1,5 @@
 package com.example.budgetbuddy
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +14,10 @@ data class Account(
     val balance: Float
 )
 
-class AccountsAdapter(private var accounts: List<Account>) :
-    RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>() {
+class AccountsAdapter(
+    private var accounts: List<Account>,
+    private val onAccountClick: (Account) -> Unit
+) : RecyclerView.Adapter<AccountsAdapter.AccountViewHolder>() {
 
     inner class AccountViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val accountName: TextView = itemView.findViewById(R.id.accountName)
@@ -25,10 +28,8 @@ class AccountsAdapter(private var accounts: List<Account>) :
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    // Handle click event here
                     val account = accounts[position]
-                    // Example: Log the selected account
-                    println("Selected Account: ${account.name}")
+                    onAccountClick(account)
                 }
             }
         }
@@ -57,4 +58,3 @@ class AccountsAdapter(private var accounts: List<Account>) :
 
     override fun getItemCount() = accounts.size
 }
-

@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 data class Category(
     val id: Int,
@@ -242,6 +243,22 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     }
 
     // Update category
+    fun getCategory(id: Int): Category {
+        val db = this.readableDatabase
+        val cursor = db.query(TABLE_CATEGORIES, arrayOf(KEY_ID, KEY_NAME, KEY_ICON, KEY_BUDGET_LIMIT, KEY_DATE), "$KEY_ID=?", arrayOf(id.toString()), null, null, null)
+        cursor?.moveToFirst()
+        val category = Category(
+            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_ICON)),
+            cursor.getFloat(cursor.getColumnIndexOrThrow(KEY_BUDGET_LIMIT)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE))
+        )
+        cursor.close()
+        return category
+    }
+
+    // Update category
     fun updateCategory(category: Category): Int {
         val db = this.writableDatabase
         val values = ContentValues().apply {
@@ -295,4 +312,47 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
         return db.update(TABLE_CATEGORIES, values, "$KEY_ID = ?", arrayOf(categoryId.toString()))
     }
+
+    fun getTransactionsByPaymentMethod(paymentMethod: String): List<Transaction> {
+        val transactions = mutableListOf<Transaction>()
+        val db = this.readableDatabase
+        val cursor: Cursor
+
+        cursor = db.rawQuery("SELECT * FROM $TABLE_TRANSACTIONS WHERE $KEY_PAYMENT_METHOD = ?", arrayOf(paymentMethod))
+
+        if (cursor.moveToFirst()) {
+            do {
+                val transaction = Transaction(
+                    cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(KEY_CATEGORY_ID)),
+                    cursor.getFloat(cursor.getColumnIndexOrThrow(KEY_AMOUNT)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_PAYMENT_METHOD)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESCRIPTION)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_TYPE))
+                )
+                transactions.add(transaction)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return transactions
+    }
+
+    fun getCategoryById(categoryId: Int): Category {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_CATEGORIES WHERE $KEY_ID = ?", arrayOf(categoryId.toString()))
+        cursor?.moveToFirst()
+
+        val category = Category(
+            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_ICON)),
+            cursor.getFloat(cursor.getColumnIndexOrThrow(KEY_BUDGET_LIMIT)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE))
+        )
+
+        cursor.close()
+        return category
+    }
+
 }

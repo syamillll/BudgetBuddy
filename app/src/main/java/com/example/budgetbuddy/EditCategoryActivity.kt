@@ -1,5 +1,6 @@
 package com.example.budgetbuddy
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -8,51 +9,73 @@ import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddCategoryActivity : AppCompatActivity() {
+class EditCategoryActivity : AppCompatActivity() {
 
     private lateinit var databaseHelper: DatabaseHelper
+    private lateinit var etCategoryName: EditText
+    private lateinit var spinnerIcon: Spinner
+    private lateinit var etBudgetLimit: EditText
+    private lateinit var tvDate: TextView
+    private var categoryId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_category)
+        setContentView(R.layout.activity_edit_category)
 
         databaseHelper = DatabaseHelper(this)
 
-        val etCategoryName: EditText = findViewById(R.id.et_category_name)
-        val spinnerIcon: Spinner = findViewById(R.id.spinner_icon)
-        val etBudgetLimit: EditText = findViewById(R.id.et_budget_limit)
-        val tvDate: TextView = findViewById(R.id.tv_date)
+        etCategoryName = findViewById(R.id.et_category_name)
+        spinnerIcon = findViewById(R.id.spinner_icon)
+        etBudgetLimit = findViewById(R.id.et_budget_limit)
+        tvDate = findViewById(R.id.tv_date)
         val btnSave: Button = findViewById(R.id.btn_save)
         val btnBack: Button = findViewById(R.id.btn_back)
 
-        // Get the current date and set it to the TextView
-        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-        tvDate.text = currentDate
+        categoryId = intent.getIntExtra("category_id", 0)
+        val category = databaseHelper.getCategory(categoryId)
+
+        // Populate fields with category data
+        etCategoryName.setText(category.name)
+        etBudgetLimit.setText(category.budgetLimit.toString())
+        tvDate.text = category.date
 
         // Populate the Spinner with drawable icons and their names
         val icons = getDrawableResourceNames()
         val adapter = IconSpinnerAdapter(icons)
         spinnerIcon.adapter = adapter
 
+        // Set the spinner to the current icon
+        val iconIndex = icons.indexOfFirst { it.name == category.icon }
+        if (iconIndex != -1) {
+            spinnerIcon.setSelection(iconIndex)
+        }
+
         btnSave.setOnClickListener {
-            val category = Category(
-                id = 0,
-                name = etCategoryName.text.toString(),
-                icon = adapter.getItem(spinnerIcon.selectedItemPosition).name,
-                budgetLimit = etBudgetLimit.text.toString().toFloat(),
+            val newName = etCategoryName.text.toString()
+            val newIcon = adapter.getItem(spinnerIcon.selectedItemPosition).name
+            val newBudgetLimit = etBudgetLimit.text.toString().toFloatOrNull() ?: 0.0f
+            val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+
+            val updatedCategory = category.copy(
+                name = newName,
+                icon = newIcon,
+                budgetLimit = newBudgetLimit,
                 date = currentDate
             )
-            databaseHelper.addCategory(category)
-            finish()
+
+            val result = databaseHelper.updateCategory(updatedCategory)
+            if (result > 0) {
+                setResult(Activity.RESULT_OK)
+                finish() // Finish activity after update
+            } else {
+                // Handle update failure, e.g., show a toast
+                Toast.makeText(this, "Failed to update category", Toast.LENGTH_SHORT).show()
+            }
         }
+
         btnBack.setOnClickListener {
             onBackPressed()
         }
-    }
-
-    // Implement onBackPressed method
-    override fun onBackPressed() {
-        super.onBackPressed()
     }
 
     private fun getDrawableResourceNames(): List<IconItem> {
@@ -101,9 +124,6 @@ class AddCategoryActivity : AppCompatActivity() {
             val view = View.inflate(parent?.context, R.layout.spinner_item_icon, null)
             val imageView: ImageView = view.findViewById(R.id.imageView)
             imageView.setImageResource(iconItem.drawableId)
-
-//            val textView: TextView = view.findViewById(R.id.textView)
-//            textView.text = iconItem.name
 
             return view
         }

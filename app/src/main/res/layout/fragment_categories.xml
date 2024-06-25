@@ -25,7 +25,6 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:paddingBottom="16dp">
-        <!-- Place your category list items here -->
     </LinearLayout>
 
     <!-- Add Category Button -->

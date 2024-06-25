@@ -1,28 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="months_array">
-        <item>January</item>
-        <item>February</item>
-        <item>March</item>
-        <item>April</item>
-        <item>May</item>
-        <item>June</item>
-        <item>July</item>
-        <item>August</item>
-        <item>September</item>
-        <item>October</item>
-        <item>November</item>
-        <item>December</item>
+    <string-array name="drawable_names">
+        <item>ic_accounts</item>
+        <item>ic_car</item>
+        <item>ic_home</item>
+        <item>ic_baby</item>
+        <item>ic_shopping</item>
+        <item>ic_vacation</item>
     </string-array>
-
-    <string-array name="years_array">
-        <item>2024</item>
-        <item>2025</item>
-        <item>2026</item>
-        <item>2027</item>
-        <item>2028</item>
-        <item>2029</item>
-        <item>2030</item>
-    </string-array>
-
 </resources>
