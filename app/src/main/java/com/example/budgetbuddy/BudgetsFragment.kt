@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +31,7 @@ class BudgetsFragment : Fragment() {
         databaseHelper = DatabaseHelper(requireContext())
         val categories = databaseHelper.getAllCategories()
 
-        setBudgetAdapter = SetBudgetAdapter(categories) { category ->
+        setBudgetAdapter = SetBudgetAdapter(categories.toMutableList()) { category ->
             showSetBudgetDialog(category)
         }
 
@@ -40,26 +41,25 @@ class BudgetsFragment : Fragment() {
         return view
     }
 
-
     private fun showSetBudgetDialog(category: Category) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_set_budget, null)
         val budgetInput = dialogView.findViewById<TextInputEditText>(R.id.budget_input)
         val monthInput = dialogView.findViewById<Spinner>(R.id.month_input)
         val yearInput = dialogView.findViewById<Spinner>(R.id.year_input)
         val setBudgetButton = dialogView.findViewById<Button>(R.id.set_budget_button)
-    
+
         // Initialize months and years arrays
         val months = arrayOf(
             "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         )
         val years = (2024..2030).map { it.toString() }.toTypedArray()
-    
+
         // Set initial values
         budgetInput.setText(category.budgetLimit.toString())
         val currentMonthIndex = Calendar.getInstance().get(Calendar.MONTH)
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-    
+
         // Populate spinners with data
         val monthAdapter = ArrayAdapter<String>(
             requireContext(),
@@ -68,8 +68,8 @@ class BudgetsFragment : Fragment() {
         )
         monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         monthInput.adapter = monthAdapter
-        monthInput.setSelection(currentMonthIndex)
-    
+        monthInput.setSelection(months.indexOf(months[currentMonthIndex]))
+
         val yearAdapter = ArrayAdapter<String>(
             requireContext(),
             android.R.layout.simple_spinner_item,
@@ -78,14 +78,14 @@ class BudgetsFragment : Fragment() {
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         yearInput.adapter = yearAdapter
         yearInput.setSelection(years.indexOf(currentYear.toString()))
-    
+
         // Set the selected values based on category.date
         val selectedYear = category.date.split("-")[0]
         val selectedMonthIndex = category.date.split("-")[1].toIntOrNull()?.minus(1) ?: currentMonthIndex
-    
+
         monthInput.setSelection(selectedMonthIndex)
         yearInput.setSelection(years.indexOf(selectedYear))
-    
+
         val alertDialog = AlertDialog.Builder(requireContext())
             .setTitle("Set Budget for ${category.name}")
             .setView(dialogView)
@@ -97,15 +97,26 @@ class BudgetsFragment : Fragment() {
             val selectedYear = years[yearInput.selectedItemPosition]
 
             if (budget != null && selectedMonth.isNotEmpty() && selectedYear.isNotEmpty()) {
-                val date = "$selectedYear-${selectedMonthIndex + 1}-01"
+                val date = "$selectedYear-${monthInput.selectedItemPosition + 1}-01"
                 databaseHelper.updateCategory(category.copy(budgetLimit = budget, date = date))
-                setBudgetAdapter.notifyDataSetChanged()  // Use setBudgetAdapter instead of categoryAdapter
-                alertDialog.dismiss()
-            }
 
+                // Update dataset used by RecyclerView adapter
+                val updatedCategories = databaseHelper.getAllCategories()
+                setBudgetAdapter.updateData(updatedCategories)
+
+                alertDialog.dismiss()
+            } else {
+                // Handle invalid input scenario
+                val errorMessage = when {
+                    budget == null -> "Invalid budget amount"
+                    selectedMonth.isEmpty() -> "Please select a month"
+                    selectedYear.isEmpty() -> "Please select a year"
+                    else -> "Invalid input"
+                }
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            }
         }
 
         alertDialog.show()
     }
-
 }
