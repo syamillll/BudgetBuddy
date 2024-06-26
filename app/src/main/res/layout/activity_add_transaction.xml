@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/recycler_background"
     android:padding="16dp">
 
     <!-- RadioGroup for Income and Expense -->
@@ -10,8 +10,8 @@
         android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radio_income"
@@ -19,20 +19,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:buttonTint="@color/colorPrimary"
+            android:gravity="center"
             android:text="Income"
-            android:textColor="@color/black"
-            android:gravity="center"/>
+            android:textColor="@color/black" />
 
         <RadioButton
             android:id="@+id/radio_expense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:layout_weight="1"
             android:buttonTint="@color/colorPrimary"
+            android:gravity="center"
             android:text="Expense"
-            android:textColor="@color/black"
-            android:layout_gravity="end"
-            android:gravity="center"/>
+            android:textColor="@color/black" />
     </RadioGroup>
 
     <!-- Hint Text for Account Spinner -->
@@ -40,51 +40,51 @@
         android:id="@+id/hint_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Account"
-        android:textColor="@color/black"
         android:layout_below="@id/radio_group"
-        android:layout_marginTop="16dp"
         android:layout_alignParentStart="true"
-        android:layout_weight="1"/>
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:text="Select Account"
+        android:textColor="@color/black" />
 
     <!-- Hint Text for Category Spinner -->
     <TextView
         android:id="@+id/hint_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Category"
-        android:textColor="@color/black"
         android:layout_below="@id/radio_group"
-        android:layout_marginTop="16dp"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="90dp"
+        android:layout_marginTop="16dp"
         android:layout_toEndOf="@id/hint_account"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:text="Select Category"
+        android:textColor="@color/black" />
 
     <!-- Account and Category Spinners -->
     <LinearLayout
         android:id="@+id/spinners_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@id/hint_account"
         android:layout_marginTop="4dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Spinner
             android:id="@+id/spinner_account"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:spinnerMode="dropdown"/>
+            android:spinnerMode="dropdown" />
 
         <Spinner
             android:id="@+id/spinner_category"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginStart="32dp"
-            android:spinnerMode="dropdown"/>
+            android:layout_weight="1"
+            android:spinnerMode="dropdown" />
     </LinearLayout>
 
     <!-- Hint Text for Amount Input -->
@@ -92,11 +92,11 @@
         android:id="@+id/hint_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Amount"
-        android:textColor="@color/black"
         android:layout_below="@id/spinners_layout"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="16dp"
-        android:layout_alignParentStart="true"/>
+        android:text="Enter Amount"
+        android:textColor="@color/black" />
 
     <!-- Amount Input -->
     <EditText
@@ -107,18 +107,18 @@
         android:layout_marginTop="4dp"
         android:hint="0.00"
         android:inputType="numberDecimal"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black" />
 
     <!-- Hint Text for Description Input -->
     <TextView
         android:id="@+id/hint_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Description"
-        android:textColor="@color/black"
         android:layout_below="@id/input_amount"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="16dp"
-        android:layout_alignParentStart="true"/>
+        android:text="Enter Description"
+        android:textColor="@color/black" />
 
     <!-- Description Input -->
     <EditText
@@ -129,45 +129,45 @@
         android:layout_marginTop="4dp"
         android:hint="Description"
         android:inputType="text"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black" />
 
     <!-- Real-Time Date -->
     <TextView
         android:id="@+id/text_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:layout_below="@id/input_description"
-        android:layout_marginTop="16dp"
         android:layout_alignParentStart="true"
-        tools:text="Date: 2023-06-22"/>
+        android:layout_marginTop="16dp"
+        android:textColor="@color/black"
+        tools:text="Date: 2023-06-22" />
 
     <!-- Save and Cancel Buttons at the Bottom -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="16dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:textColor="@color/colorPrimary"
+            android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:layout_weight="1"/>
+            android:text="Cancel"
+            android:textColor="@color/colorPrimary" />
 
         <Button
             android:id="@+id/btn_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
-            android:textColor="@color/colorPrimary"
+            android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:layout_weight="1"/>
+            android:text="Save"
+            android:textColor="@color/colorPrimary" />
     </LinearLayout>
 
 </RelativeLayout>
